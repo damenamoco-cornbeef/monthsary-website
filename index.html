@@ -1,0 +1,636 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#241c31">
+  <title>A little something for Bab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,500;1,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --rose: #dd7894;
+      --rose-deep: #b95779;
+      --pink: #f8e3e9;
+      --lavender: #e9e4f5;
+      --cream: #fff8f2;
+      --ink: #493541;
+      --muted: #8e7986;
+      --white: #fffdfc;
+      --line: #eedde2;
+      --serif: "Playfair Display", Georgia, serif;
+      --sans: "DM Sans", sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; color: var(--ink); background: var(--cream); font-family: var(--sans); -webkit-font-smoothing: antialiased; }
+    body.is-locked { overflow: hidden; }
+    button, a { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+    button { color: inherit; }
+    .topbar { position: absolute; top: 0; left: 0; width: 100%; z-index: 4; display: flex; justify-content: space-between; align-items: center; padding: 25px clamp(22px, 7vw, 104px); }
+    .brand { font-family: var(--serif); font-size: 19px; font-style: italic; color: var(--rose-deep); }
+    .nav { display: flex; gap: clamp(15px, 3vw, 38px); align-items: center; font-size: 12px; letter-spacing: .03em; color: #735d69; }
+    .nav a:hover { color: var(--rose-deep); }
+    .music-button { width: 42px; height: 42px; border: 1px solid #ead7dd; border-radius: 50%; background: #fffaf8d9; cursor: pointer; font-size: 16px; transition: transform .2s, background .2s; }
+    .music-button:hover { transform: scale(1.06); background: white; }
+    .hero { min-height: 670px; height: min(850px, 100svh); position: relative; display: grid; place-items: center; overflow: hidden; text-align: center; background: radial-gradient(ellipse at 18% 25%, #f8e2e7 0, transparent 34%), radial-gradient(ellipse at 83% 72%, #e8e0f2 0, transparent 38%), linear-gradient(135deg, #fff8f3 3%, #fff4f0 53%, #f8edf5 100%); }
+    .hero::before, .hero::after { content: ""; position: absolute; border: 1px solid #d984a025; border-radius: 50%; width: 600px; height: 600px; animation: breathe 8s ease-in-out infinite; }
+    .hero::after { width: 780px; height: 780px; animation-delay: -3s; border-color: #987db019; }
+    .hero-content { max-width: 780px; padding: 95px 24px 40px; z-index: 2; animation: rise .9s both; }
+    .eyebrow { color: var(--rose-deep); font-size: 11px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1 { font-family: var(--serif); font-weight: 500; font-size: clamp(42px, 7.2vw, 78px); line-height: 1.12; margin: 21px 0 15px; }
+    h1 em { color: var(--rose-deep); font-weight: 500; }
+    .hero-sub { color: #806b77; font-size: 15px; line-height: 1.8; max-width: 440px; margin: 0 auto 29px; }
+    .pill-link { display: inline-flex; align-items: center; gap: 10px; padding: 14px 21px; border-radius: 30px; color: white; background: var(--rose-deep); box-shadow: 0 8px 22px #b9577930; font-size: 13px; transition: transform .2s, box-shadow .2s; }
+    .pill-link:hover { transform: translateY(-2px); box-shadow: 0 11px 27px #b9577945; }
+    .hero-note { margin: 22px auto 0; font-family: var(--serif); font-style: italic; color: #9c8490; font-size: 14px; }
+    .float-heart { position: absolute; color: #cb719233; font-size: 21px; pointer-events: none; animation: drift 8s ease-in-out infinite; }
+    .heart-a { left: 14%; top: 38%; } .heart-b { right: 16%; top: 29%; animation-delay: -3s; font-size: 15px; } .heart-c { right: 22%; bottom: 20%; animation-delay: -5s; font-size: 25px; } .heart-d { left: 23%; bottom: 22%; animation-delay: -1s; font-size: 13px; }
+    .scroll-cue { position: absolute; bottom: 24px; z-index: 2; color: #987f8d; font-size: 10px; letter-spacing: .15em; text-transform: uppercase; }
+    .scroll-cue::after { content: ""; display: block; height: 28px; width: 1px; margin: 10px auto 0; background: #d5a6b5; }
+    section { padding: 102px 24px; }
+    .section-wrap { width: min(1020px, 100%); margin: auto; }
+    .section-head { text-align: center; margin-bottom: 48px; }
+    .section-head h2 { font: 500 clamp(34px, 5vw, 49px)/1.15 var(--serif); margin: 12px 0 13px; }
+    .section-head p { max-width: 490px; color: var(--muted); font-size: 14px; line-height: 1.8; margin: auto; }
+    .counter-section { background: var(--white); padding: 48px 24px; }
+    .counter-inner { width: min(850px, 100%); margin: auto; display: flex; justify-content: space-between; align-items: center; gap: 24px; }
+    .counter-label { font-family: var(--serif); font-size: 24px; }
+    .counter-caption { color: var(--muted); font-size: 12px; margin-top: 5px; }
+    .counter-values { display: flex; gap: clamp(20px, 5vw, 65px); text-align: center; }
+    .count { font: 600 30px var(--serif); color: var(--rose-deep); }
+    .count-label { display: block; font-size: 10px; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: 5px; }
+    .letter-section { background: var(--lavender); position: relative; overflow: hidden; }
+    .letter-section::before { content: "♡"; position: absolute; right: 7%; top: 7%; font: 240px var(--serif); color: #c7b7dc28; transform: rotate(12deg); }
+    .letter { position: relative; width: min(670px, 100%); margin: auto; padding: clamp(28px, 6vw, 58px); border: 1px solid #ffffffa6; background: #fffaf7d9; box-shadow: 0 18px 55px #59405a0e; }
+    .letter h2 { font: 500 38px var(--serif); margin: 13px 0 27px; }
+    .letter p { color: #665564; font: 16px/1.95 var(--serif); }
+    .letter .signoff { margin-top: 25px; color: var(--rose-deep); font-size: 20px; font-style: italic; }
+    .gallery-section { background: var(--cream); }
+    .gallery { display: grid; grid-template-columns: repeat(3, 1fr); gap: 17px; }
+    .photo { position: relative; display: grid; grid-template-rows: minmax(0, 1fr) auto; overflow: visible; aspect-ratio: 4 / 5; padding: 10px 10px 14px; background: #fffdfb; box-shadow: 0 8px 22px #49354118; transform: rotate(-1deg); transition: transform .3s ease, box-shadow .3s ease; }
+    .photo:nth-child(even) { transform: rotate(1.2deg); }
+    .photo:nth-child(2) { margin-top: 28px; }
+    .photo img { display: block; width: 100%; height: 100%; object-fit: cover; transition: transform .55s cubic-bezier(.2,.7,.2,1); }
+    .photo .image-trigger { height: auto; }
+    .photo:hover img { transform: scale(1.045); }
+    .photo:hover { z-index: 1; transform: translateY(-5px) rotate(0); box-shadow: 0 15px 30px #49354125; }
+    .photo figcaption { display: grid; min-height: 47px; place-items: center; padding: 9px 3px 0; color: var(--ink); text-align: center; font: italic 14px/1.35 var(--serif); }
+    .image-trigger, .story-photo-trigger { display: block; width: 100%; padding: 0; overflow: hidden; border: 0; background: transparent; cursor: zoom-in; }
+    .image-trigger { height: 100%; }
+    .image-trigger:focus-visible, .story-photo-trigger:focus-visible { outline: 3px solid var(--rose-deep); outline-offset: 3px; }
+    .story-photo-trigger { aspect-ratio: 4 / 3; }
+    .story-photo-trigger img { height: 100%; aspect-ratio: auto; transition: transform .55s cubic-bezier(.2,.7,.2,1); }
+    .story-photo-trigger:hover img { transform: scale(1.045); }
+    .image-viewer[hidden] { display: none; }
+    .image-viewer { position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 24px; color: #fff8fa; background: #191522ed; backdrop-filter: blur(12px); }
+    .viewer-content { width: min(1100px, 100%); max-height: 100%; display: grid; grid-template-rows: auto minmax(0, 1fr) auto; gap: 14px; }
+    .viewer-top { display: flex; justify-content: flex-end; }
+    .viewer-close, .viewer-arrow, .viewer-play { display: grid; place-items: center; border: 1px solid #fff6; color: #fff8fa; background: #ffffff12; cursor: pointer; transition: background .2s, transform .2s; }
+    .viewer-close:hover, .viewer-arrow:hover, .viewer-play:hover { background: #ffffff2b; transform: scale(1.04); }
+    .viewer-close { width: 42px; height: 42px; border-radius: 50%; font-size: 25px; }
+    .viewer-stage { min-height: 0; display: grid; grid-template-columns: 48px minmax(0, 1fr) 48px; align-items: center; gap: clamp(8px, 3vw, 28px); touch-action: pan-y; }
+    .viewer-arrow { width: 46px; height: 46px; border-radius: 50%; font-size: 25px; }
+    .viewer-figure { min-height: 0; margin: 0; display: grid; grid-template-rows: minmax(0, 1fr) auto; justify-items: center; gap: 13px; }
+    .viewer-figure img { display: block; max-width: 100%; max-height: min(70vh, 760px); object-fit: contain; border-radius: 3px; box-shadow: 0 18px 70px #0007; transition: opacity .22s ease, transform .22s ease; }
+    .viewer-figure img.is-changing { opacity: .15; transform: scale(.98); }
+    .viewer-figure figcaption { color: #f3e5eb; text-align: center; font: italic 20px var(--serif); }
+    .viewer-controls { display: flex; justify-content: center; align-items: center; gap: 18px; color: #e8dbe7; font-size: 12px; }
+    .viewer-play { min-width: 42px; height: 38px; border-radius: 20px; font-size: 15px; }
+    .timeline-section { background: #fffdfb; }
+    .story-memories { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 30px 22px; }
+    .story-memory { min-width: 0; padding: 12px 12px 22px; background: #fffdfb; box-shadow: 0 8px 22px #49354118; transform: rotate(-.7deg); transition: transform .3s ease, box-shadow .3s ease; }
+    .story-memory:nth-child(even) { transform: rotate(.9deg); }
+    .story-memory:hover { transform: translateY(-5px) rotate(0); box-shadow: 0 15px 30px #49354125; }
+    .story-memory img { display: block; width: 100%; aspect-ratio: 4 / 3; object-fit: cover; background: var(--pink); }
+    .story-memory time { display: block; margin-top: 18px; color: var(--rose-deep); font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; }
+    .story-memory h3 { margin: 8px 0; font: 500 23px var(--serif); }
+    .story-memory p { max-width: 480px; margin: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .reasons-section { background: #f8e8ec; }
+    .reason-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: #e9cbd4; border: 1px solid #e9cbd4; }
+    .reason { text-align: center; background: #fffaf9; padding: 34px 20px 30px; }
+    .reason-icon { color: var(--rose); font-size: 23px; }
+    .reason p { margin: 13px 0 0; font: italic 17px/1.5 var(--serif); }
+    .final-section { text-align: center; padding: 110px 24px 100px; overflow: hidden; position: relative; background: radial-gradient(ellipse at 50% 110%, #eadff3, transparent 58%), var(--cream); }
+    .final-section h2 { font: 500 clamp(38px, 6vw, 59px)/1.2 var(--serif); margin: 14px auto; max-width: 680px; }
+    .final-section p { color: var(--muted); font-size: 14px; margin: 0 auto 25px; }
+    .surprise-button { border: 0; border-radius: 30px; background: var(--rose-deep); color: white; padding: 16px 26px; cursor: pointer; box-shadow: 0 8px 23px #b9577938; transition: transform .2s, background .2s; }
+    .surprise-button:hover { transform: translateY(-2px); background: #a94769; }
+    .surprise-message { min-height: 64px; margin: 24px 0 0; font: italic clamp(24px, 4vw, 35px) var(--serif); color: var(--rose-deep); }
+    footer { padding: 23px; text-align: center; background: #fffdfb; color: #9d8994; font-size: 11px; }
+    .falling-heart { position: fixed; top: -36px; z-index: 10; pointer-events: none; color: var(--rose); animation: fall var(--duration, 4s) linear forwards; }
+    .opening-screen { position: fixed; inset: 0; z-index: 30; display: grid; place-items: center; overflow: hidden; padding: 28px; color: #fff6f8; text-align: center; background: radial-gradient(ellipse at 18% 16%, #765477 0, transparent 35%), radial-gradient(ellipse at 88% 84%, #59466e 0, transparent 36%), linear-gradient(145deg, #211c31, #38283f 56%, #292337); transition: opacity 1.2s ease, visibility 1.2s ease; }
+    .opening-screen::before, .opening-screen::after { content: ""; position: absolute; width: min(78vw, 620px); aspect-ratio: 1; border: 1px solid #f4c8d21c; border-radius: 50%; animation: breathe 8s ease-in-out infinite; }
+    .opening-screen::after { width: min(96vw, 790px); animation-delay: -3s; border-color: #d8b9f21a; }
+    .opening-content { position: relative; z-index: 1; max-width: 650px; transition: opacity .5s ease, transform .7s ease; }
+    .opening-kicker { color: #e9bfd1; font-size: 10px; font-weight: 600; letter-spacing: .28em; text-transform: uppercase; }
+    .opening-content h1 { margin: 22px 0 30px; color: #fff8f8; font-size: clamp(39px, 7vw, 67px); }
+    .opening-heart { display: inline-block; color: #f3a9bf; animation: heartbeat 1.5s ease-in-out infinite; }
+    .opening-button { display: inline-flex; align-items: center; gap: 10px; border: 1px solid #f6d6df66; border-radius: 30px; padding: 15px 23px; color: #342534; background: #fff1f1; box-shadow: 0 8px 35px #0e0b1d70; cursor: pointer; transition: transform .2s ease, background .2s ease; }
+    .opening-button:hover { transform: translateY(-2px); background: white; }
+    .opening-hint { margin: 25px 0 0; color: #e8d6e6a8; font: italic 14px var(--serif); }
+    .opening-screen.is-opening { opacity: 0; visibility: hidden; }
+    .opening-screen.is-opening .opening-content { opacity: 0; transform: scale(.93) translateY(10px); }
+    .transition-particle { position: absolute; z-index: 2; left: var(--left); top: 110%; color: var(--particle-color); font-size: var(--size); pointer-events: none; animation: transition-rise var(--duration) cubic-bezier(.2,.65,.3,1) forwards; }
+    .favorite-section { background: #fffdfb; }
+    .favorite-list { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; border-top: 1px solid var(--line); }
+    .favorite-memory { padding: 25px 8px 0 0; }
+    .favorite-memory span { color: var(--rose); font-size: 19px; }
+    .favorite-memory h3 { margin: 13px 0 8px; font: 500 21px var(--serif); }
+    .favorite-memory p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.8; }
+    .journey-section { background: #f4edf7; }
+    .journey-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; }
+    .journey-card { padding-top: 20px; border-top: 1px solid #d8c7e0; }
+    .journey-icon { color: var(--rose-deep); font-size: 22px; }
+    .journey-card h3 { margin: 17px 0 9px; font: 500 23px var(--serif); }
+    .journey-card p { margin: 0; color: #786b7b; font-size: 13px; line-height: 1.8; }
+    .distance-section { position: relative; overflow: hidden; color: #fff7fa; background: radial-gradient(ellipse at 80% 18%, #725a7d 0, transparent 34%), linear-gradient(135deg, #30273e, #45334d); }
+    .distance-section .section-head p { color: #e1d2e4; }
+    .distance-section .eyebrow { color: #edc1d2; }
+    .distance-notes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; text-align: center; }
+    .distance-note { padding: 12px; }
+    .distance-note span { display: inline-grid; place-items: center; width: 54px; aspect-ratio: 1; border: 1px solid #f1d7e255; border-radius: 50%; color: #f1c6d5; font-size: 22px; }
+    .distance-note h3 { margin: 18px 0 8px; font: 500 21px var(--serif); }
+    .distance-note p { max-width: 280px; margin: auto; color: #e4d8e5; font-size: 13px; line-height: 1.8; }
+    .future-section { position: relative; overflow: hidden; text-align: center; background: linear-gradient(145deg, #f0eaf7, #fff5f1 72%); }
+    .future-content { width: min(680px, 100%); margin: auto; }
+    .future-icon { color: var(--rose-deep); font-size: 26px; }
+    .future-content h2 { margin: 13px 0 17px; font: 500 clamp(36px, 5vw, 52px)/1.16 var(--serif); }
+    .future-content p { color: #796b7a; font: 16px/1.9 var(--serif); }
+    .finale[hidden] { display: none; }
+    .finale { position: fixed; inset: 0; z-index: 40; display: grid; place-items: center; overflow: hidden; padding: 28px; color: var(--ink); text-align: center; background: radial-gradient(ellipse at 14% 22%, #f5d9e3 0, transparent 38%), radial-gradient(ellipse at 86% 80%, #e4daf2 0, transparent 40%), #fff7f2; animation: finale-in .8s ease both; }
+    .finale-content { position: relative; z-index: 2; width: min(680px, 100%); animation: rise .9s .15s both; }
+    .finale-content h2 { margin: 0 0 19px; color: var(--rose-deep); font: italic 500 clamp(38px, 7vw, 66px)/1.16 var(--serif); }
+    .finale-message { margin: 0; color: #685361; font: 500 clamp(16px, 2.5vw, 20px)/1.9 var(--serif); white-space: pre-line; }
+    .finale-close { margin-top: 31px; border: 1px solid #d9b6c2; border-radius: 24px; padding: 11px 17px; color: #785b6b; background: #fffaf8b8; cursor: pointer; }
+    .finale-particle { position: absolute; z-index: 1; top: -40px; left: var(--left); color: var(--particle-color); font-size: var(--size); pointer-events: none; animation: finale-fall var(--duration) linear var(--delay) infinite; }
+    .reveal { opacity: 0; transform: translateY(18px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    @keyframes rise { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes breathe { 0%,100% { transform: scale(.97); opacity: .65; } 50% { transform: scale(1.04); opacity: 1; } }
+    @keyframes drift { 0%,100% { transform: translateY(0) rotate(-8deg); } 50% { transform: translateY(-19px) rotate(9deg); } }
+    @keyframes fall { to { transform: translate3d(var(--sway, 30px), 110vh, 0) rotate(540deg); opacity: .1; } }
+    @keyframes heartbeat { 0%,100% { transform: scale(1); } 15% { transform: scale(1.17); } 30% { transform: scale(1); } 45% { transform: scale(1.1); } }
+    @keyframes transition-rise { 0% { transform: translateY(0) rotate(0); opacity: 0; } 12% { opacity: 1; } 100% { transform: translateY(-125vh) rotate(420deg); opacity: 0; } }
+    @keyframes finale-fall { to { transform: translate3d(var(--sway), 110vh, 0) rotate(480deg); opacity: .15; } }
+    @keyframes finale-in { from { opacity: 0; } to { opacity: 1; } }
+    @media (max-width: 700px) {
+      .topbar { padding: 18px 20px; }
+      .nav { gap: 13px; }
+      .nav a { display: none; }
+      .nav a:first-child { display: inline; }
+      .hero { min-height: 660px; height: 90svh; }
+      .hero-sub { font-size: 14px; }
+      section { padding: 76px 21px; }
+      .opening-content h1 { font-size: clamp(38px, 11vw, 55px); }
+      .journey-grid, .distance-notes { grid-template-columns: 1fr; gap: 18px; }
+      .story-memories { grid-template-columns: 1fr; gap: 27px; }
+      .journey-card { padding: 18px 0; }
+      .distance-note { padding: 8px 0 18px; }
+      .favorite-list { grid-template-columns: 1fr; gap: 2px; }
+      .favorite-memory { padding: 19px 0; border-bottom: 1px solid var(--line); }
+      .counter-inner { flex-direction: column; align-items: flex-start; gap: 24px; }
+      .counter-values { width: 100%; justify-content: space-between; gap: 10px; }
+      .count { font-size: 26px; }
+      .letter h2 { font-size: 32px; }
+      .letter p { font-size: 15px; }
+      .gallery { gap: 9px; }
+      .photo:nth-child(2) { margin-top: 17px; }
+      .photo { padding: 6px 6px 10px; }
+      .photo figcaption { min-height: 40px; padding: 8px 2px 0; font-size: 11px; }
+      .image-viewer { padding: 14px; }
+      .viewer-content { gap: 8px; }
+      .viewer-stage { grid-template-columns: 38px minmax(0, 1fr) 38px; gap: 5px; }
+      .viewer-arrow { width: 36px; height: 36px; font-size: 20px; }
+      .viewer-figure img { max-height: 72vh; }
+      .viewer-figure figcaption { font-size: 17px; }
+      .reason-list { grid-template-columns: repeat(2, 1fr); }
+      .reason { padding: 26px 12px; }
+      .reason p { font-size: 15px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <section class="opening-screen" id="openingScreen" aria-labelledby="openingTitle">
+    <div class="opening-content">
+      <div class="opening-kicker">A little note, just for you</div>
+      <h1 id="openingTitle">Bab, I made something special for you… <span class="opening-heart" aria-hidden="true">♥</span></h1>
+      <button class="opening-button" id="openSurprise" type="button">Open Your Surprise <span aria-hidden="true">✨</span></button>
+      <p class="opening-hint">Whenever you're ready.</p>
+    </div>
+  </section>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="Back to top">little love note</a>
+    <nav class="nav" aria-label="Main navigation">
+      <a href="#letter">My letter</a><a href="#memories">Memories</a><a href="#reasons">Reasons</a>
+      <button class="music-button" id="musicToggle" type="button" aria-label="Play gentle background music" title="Play gentle background music">♫</button>
+    </nav>
+  </header>
+  <main inert>
+    <section class="hero" id="home">
+      <span class="float-heart heart-a" aria-hidden="true">♡</span><span class="float-heart heart-b" aria-hidden="true">♥</span><span class="float-heart heart-c" aria-hidden="true">♡</span><span class="float-heart heart-d" aria-hidden="true">♥</span>
+      <div class="hero-content">
+        <div class="eyebrow" id="heroEyebrow">A little celebration of us</div>
+        <h1>Happy Monthsary,<br><em id="heroGreeting">Bab! <span aria-hidden="true">♥</span></em></h1>
+        <p class="hero-sub" id="heroMessage">Since November 1, 2022, distance has never changed how much I love you.</p>
+        <a class="pill-link" href="#letter">A note for you <span aria-hidden="true">↓</span></a>
+        <p class="hero-note" id="heroNote">Made with all my heart, just for you</p>
+      </div>
+      <div class="scroll-cue" aria-hidden="true">our story</div>
+    </section>
+
+    <section class="counter-section" aria-label="Time together">
+      <div class="counter-inner">
+        <div><div class="counter-label">Our time together</div><div class="counter-caption">Together since November 1, 2022. And counting, always.</div></div>
+        <div class="counter-values" aria-live="polite">
+          <div><span class="count" id="monthsCount">0</span><span class="count-label">months</span></div>
+          <div><span class="count" id="daysCount">0</span><span class="count-label">days</span></div>
+          <div><span class="count" id="hoursCount">0</span><span class="count-label">hours</span></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="letter-section" id="letter">
+      <article class="letter reveal">
+        <div class="eyebrow">A letter for Bab</div>
+        <h2>My dearest <span data-name>bab</span>,</h2>
+        <div id="letterBody">
+          <p>Hi, bab camelya, miss u nag try kog buhat aning website pa sweet-sweet ba ambot og mo run bani or makita mingaw na kayko nmo busy na kayka na person, pero ayaw ko kalimti ha. Iloveyousomuch.</p>
+          <p>bahalag maot kaayo pagbuhat sincere man sad kaayo ni, hapit na atong anniversary pero layo kayta sa usag usa ning samot na ron ningkamot ko mangitag work para makaari naka diri</p>
+          <p>padayun lang ta sa atong pangandoy no support rako nmo pirmi bab, proud sad kayko nmo layo naka pero layo pa naka sugod-sugod naka sa imong mga pangandoy ako pa ingon pa unta puhon.</p>
+          <p>kita gihapon hangtod mo successful sa life og naa nay peace of mind, I love you so much, Imissyouu na kaayo diri nlng ko mag long message unta way error aron makit-an nmos online</p>
+        </div>
+        <p class="signoff">Always yours,<br><span id="signoffName">Your demdem</span> ♥</p>
+      </article>
+    </section>
+
+    <section class="journey-section" id="journey">
+      <div class="section-wrap">
+        <div class="section-head reveal"><div class="eyebrow">Two places, one little world</div><h2>Our LDR journey</h2><p>Every call, message, and moment together makes the miles feel a little smaller.</p></div>
+        <div class="journey-grid reveal" id="journeyList"></div>
+      </div>
+    </section>
+
+    <section class="gallery-section" id="memories">
+      <div class="section-wrap">
+        <div class="section-head reveal"><div class="eyebrow">Our little archive</div><h2>Our memories</h2><p>A few favorite snapshots from our story, until we can make a thousand more side by side.</p></div>
+        <div class="gallery reveal" id="gallery">
+          <figure class="photo"><img src="pictures/pic1.jpg" alt="A couple sharing a quiet moment" loading="lazy"><figcaption>My favorite place is beside you.</figcaption></figure>
+          <figure class="photo"><img src="pictures/pic2.jpg" alt="A cozy dinner table glowing warmly" loading="lazy"><figcaption>Our kind of little date.</figcaption></figure>
+          <figure class="photo"><img src="pictures/pic3.jpg" alt="A soft golden sunset over a field" loading="lazy"><figcaption>Collecting sunsets with you.</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="timeline-section" id="story">
+      <div class="section-wrap">
+        <div class="section-head reveal"><div class="eyebrow">The beginning of forever</div><h2>Our story, in pictures</h2><p>Little moments across the miles, saved here to look back on and keep close.</p></div>
+        <div class="story-memories reveal" id="storyMemories"></div>
+      </div>
+    </section>
+
+    <section class="favorite-section" id="favoriteMemories">
+      <div class="section-wrap">
+        <div class="section-head reveal"><div class="eyebrow">The moments that stay</div><h2>Our favorite memories</h2><p>Little pieces of our story I wish I could bottle up and keep forever.</p></div>
+        <div class="favorite-list reveal" id="favoriteList"></div>
+      </div>
+    </section>
+
+    <section class="distance-section" id="distance">
+      <div class="section-wrap">
+        <div class="section-head reveal"><div class="eyebrow">Miles apart, close in every way</div><h2>Distance doesn't stop us</h2><p>Our love lives in the little rituals that make even faraway days feel shared.</p></div>
+        <div class="distance-notes reveal">
+          <article class="distance-note"><span aria-hidden="true">☾</span><h3>Late-night conversations</h3><p>One more story, one more laugh, one more minute together before we say goodnight.</p></article>
+          <article class="distance-note"><span aria-hidden="true">▣</span><h3>Our video-call dates</h3><p>Your face on my screen can turn an ordinary evening into my favorite one.</p></article>
+          <article class="distance-note"><span aria-hidden="true">♡</span><h3>Counting down to hello</h3><p>Until we can hold each other again, I'll keep showing up and choosing us.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="reasons-section" id="reasons">
+      <div class="section-wrap">
+        <div class="section-head reveal"><div class="eyebrow">I could go on forever</div><h2>Reasons Why I Love You, Bab</h2><p>In no particular order. Except maybe the first one.</p></div>
+        <div class="reason-list reveal" id="reasonsList">
+          <div class="reason"><span class="reason-icon">♡</span><p>Cute.</p></div>
+          <div class="reason"><span class="reason-icon">✿</span><p>murag tae masuko cute gihapon.</p></div>
+          <div class="reason"><span class="reason-icon">☼</span><p>imong simod haha.</p></div>
+          <div class="reason"><span class="reason-icon">✧</span><p>imong ilong.</p></div>
+          <div class="reason"><span class="reason-icon">♡</span><p>imong bj(buko juice).</p></div>
+          <div class="reason"><span class="reason-icon">∞</span><p>imong concerncitizen.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="future-section" id="someday">
+      <div class="future-content reveal">
+        <span class="future-icon" aria-hidden="true">✈</span>
+        <div class="eyebrow">A promise for someday</div>
+        <h2>Someday, no more distance</h2>
+        <p>Someday, there will be no screen between our smiles and no goodbye at the end of a visit. Until that day, every mile is just a little more proof of how much you mean to me. I can't wait for all the ordinary mornings, hand-in-hand walks, and unhurried days we'll share.</p>
+      </div>
+    </section>
+
+    <section class="final-section" id="surprise">
+      <div class="eyebrow">One last thing, my camella homes</div>
+      <h2>There's nowhere else I'd rather be than right here, with you.</h2>
+      <p>Tap for your little surprise ♥</p>
+      <button class="surprise-button" id="surpriseButton" type="button">Open your final surprise <span aria-hidden="true">♡</span></button>
+      <div class="surprise-message" id="surpriseMessage" aria-live="polite"></div>
+    </section>
+  </main>
+  <section class="image-viewer" id="imageViewer" role="dialog" aria-modal="true" aria-label="Memory slideshow" hidden>
+    <div class="viewer-content">
+      <div class="viewer-top"><button class="viewer-close" id="viewerClose" type="button" aria-label="Close slideshow" title="Close">×</button></div>
+      <div class="viewer-stage">
+        <button class="viewer-arrow" id="viewerPrevious" type="button" aria-label="Previous picture" title="Previous">‹</button>
+        <figure class="viewer-figure"><img id="viewerImage" alt=""><figcaption id="viewerCaption"></figcaption></figure>
+        <button class="viewer-arrow" id="viewerNext" type="button" aria-label="Next picture" title="Next">›</button>
+      </div>
+      <div class="viewer-controls"><span id="viewerCount" aria-live="polite"></span><button class="viewer-play" id="viewerPlay" type="button" aria-label="Start slideshow" title="Start slideshow" aria-pressed="false">▶</button></div>
+    </div>
+  </section>
+  <footer>Made with love, for <span data-name>Love</span> <span aria-hidden="true">♥</span></footer>
+  <section class="finale" id="finale" role="dialog" aria-modal="true" aria-labelledby="finaleTitle" hidden>
+    <div class="finale-content">
+      <div class="eyebrow">Always and in all ways</div>
+      <h2 id="finaleTitle">I Love You, Bab. <span aria-hidden="true">♥</span></h2>
+      <p class="finale-message">No matter how many miles are between us,
+    my heart will always find its way to you.sheshh kaayo no 
+    The distance is temporary, but my love for you is forever.
+    Someday, we won't have to say goodbye through a screen anymore.
+    Until then, I'll keep choosing you—every single day.
+    Happy Monthsary, Bab! ❤️🌎✈️</p>
+      <button class="finale-close" id="closeFinale" type="button">Back to our story</button>
+    </div>
+  </section>
+
+  <script>
+    // Personalize this object: update the date, name, words, photos, and milestones.
+    const CONFIG = {
+      name: "Bab",
+      anniversaryDate: "2022-11-01T00:00:00",
+      heroMessage: "Since November 1, 2022, distance has never changed how much I love you.",
+      letter: [
+        "Hi, bab camelya, miss u nag try kog buhat aning website pa sweet-sweet ba ambot og mo run bani or makita mingaw na kayko nmo busy na kayka na person, pero ayaw ko kalimti ha. Iloveyousomuch.",
+        "bahalag maot kaayo pagbuhat sincere man sad kaayo ni, hapit na atong anniversary pero layo kayta sa usag usa ning samot na ron ningkamot ko mangitag work para makaari naka diri",
+        "padayun lang ta sa atong pangandoy no support rako nmo pirmi bab, proud sad kayko nmo layo naka pero layo pa naka sugod-sugod naka sa imong mga pangandoy ako pa ingon pa unta puhon.",
+        "kita gihapon hangtod mo successful sa life og naa nay peace of mind, I love you so much, Imissyouu na kaayo diri nlng ko mag long message unta way error aron makit-an nmos online"
+      ],
+      signoff: "Always yours",
+      photos: [
+        { src: "pictures/pic1.jpg", fallbackSrc: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=900&q=85", alt: "A couple sharing a quiet moment", caption: "Graduation nako nya naa ka" },
+        { src: "pictures/pic2.jpg", fallbackSrc: "https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?auto=format&fit=crop&w=900&q=85", alt: "A cozy dinner table glowing warmly", caption: "Beach date ta ani palayo sa away." },
+        { src: "pictures/pic3.jpg", fallbackSrc: "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=900&q=85", alt: "A soft golden sunset over a field", caption: "Graduation nimo mel with me." }
+      ],
+      storyMemories: [
+        { date: "04-16-2026", title: "Cantilan", story: "Nangaon kay gepanggutom ta with friends nako kay gekan man ta sa school nako miss u", image: "pictures/pic4.jpg", fallbackSrc: "https://images.unsplash.com/photo-1516589178581-6cd7833ae3b2?auto=format&fit=crop&w=1000&q=85", alt: "A couple sharing a quiet moment" },
+        { date: "01-19-2026", title: "Adlay", story: "Tambay always sa balkon taga gabii storya-storya kay hapit napud ldr haha.", image: "pictures/pic5.jpg", fallbackSrc: "https://images.unsplash.com/photo-1522673607200-164d1b6ce486?auto=format&fit=crop&w=1000&q=85", alt: "A couple embracing outdoors" },
+        { date: "07-22-2026", title: "Shadol", story: "nanglaag og shadol kay 4days ramis nb maong ge sulit last bago nagmanila mingawa oy.", image: "pictures/pic6.jpg", fallbackSrc: "https://images.unsplash.com/photo-1529636798458-92182e662485?auto=format&fit=crop&w=1000&q=85", alt: "A couple holding hands" },
+        { date: "07-23-2026", title: "Jorge Town", story: "last na laag sa jorge town with demi ann na pero sulit kaayo makamingaw lng.", image: "pictures/pic7.jpg", fallbackSrc: "https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?auto=format&fit=crop&w=1000&q=85", alt: "A warm sunset over a field" }
+      ],
+      journey: [
+        { icon: "♡", title: "Little messages, all day", story: "Good mornings, tiny updates, and the comfort of knowing we're part of each other's day." },
+        { icon: "☾", title: "Calls that run late", story: "A familiar voice, shared stories, and just a few more minutes before we say goodnight." },
+        { icon: "✈", title: "Every reunion ahead", story: "The miles make each hello sweeter, and give us another day together to look forward to." }
+      ],
+      favoriteMemories: [
+        { title: "First meet", story: "ge sundo ko nimo sa terminal, nya nganaon tag pan nya sexy kayka nag heart-heart akong mata." },
+        { title: "First adto nako sa inyo", story: "ulaw kaayo saka tanan pero lakasan lng ng loob di ghapon makalimtan." },
+        { title: "First adto nimo sa amoa", story: "maulaw ko nya pa ilaila sa ilaha lola nya excited kayko na mo adto ka sa surigao solo flight pajud." }
+      ],
+      reasons: [
+        "Imong kacute", "Imong ilong", "Murag tae masuko pero cute ghapon.", "imong bj(buko juice).", "imong ka corcerncitizen", "Imong ngipon."
+      ]
+    };
+
+    const dateFormatter = new Intl.DateTimeFormat(undefined, { month: "long", day: "numeric", year: "numeric" });
+    document.querySelectorAll("[data-name]").forEach((element) => { element.textContent = CONFIG.name; });
+    document.getElementById("heroMessage").textContent = CONFIG.heroMessage;
+    document.getElementById("heroGreeting").innerHTML = `${CONFIG.name}! <span aria-hidden="true">♥</span>`;
+    document.querySelector(".letter h2").textContent = `My dearest ${CONFIG.name},`;
+    document.getElementById("letterBody").replaceChildren(...CONFIG.letter.map((paragraph) => {
+      const element = document.createElement("p"); element.textContent = paragraph; return element;
+    }));
+    document.getElementById("signoffName").textContent = CONFIG.signoff;
+    const slideshowPhotos = [
+      ...CONFIG.photos.map((photo) => ({ src: photo.src, fallbackSrc: photo.fallbackSrc, alt: photo.alt, caption: photo.caption })),
+      ...CONFIG.storyMemories.map((memory) => ({ src: memory.image, fallbackSrc: memory.fallbackSrc, alt: memory.alt, caption: memory.title }))
+    ];
+    function loadPhoto(image, photo) {
+      if (photo.fallbackSrc) image.addEventListener("error", () => { image.src = photo.fallbackSrc; }, { once: true });
+      image.src = photo.src;
+    }
+    document.getElementById("gallery").replaceChildren(...CONFIG.photos.map((photo, index) => {
+      const figure = document.createElement("figure"); figure.className = "photo";
+      const image = document.createElement("img"); image.alt = photo.alt; image.loading = "lazy"; loadPhoto(image, photo);
+      const trigger = document.createElement("button"); trigger.className = "image-trigger"; trigger.type = "button";
+      trigger.dataset.slideshowIndex = index; trigger.setAttribute("aria-label", `Open picture: ${photo.caption}`);
+      const caption = document.createElement("figcaption"); caption.textContent = photo.caption;
+      trigger.append(image); figure.append(trigger, caption); return figure;
+    }));
+    document.getElementById("storyMemories").replaceChildren(...CONFIG.storyMemories.map((memory, index) => {
+      const article = document.createElement("article"); article.className = "story-memory";
+      const image = document.createElement("img"); image.alt = memory.alt; image.loading = "lazy";
+      loadPhoto(image, { src: memory.image, fallbackSrc: memory.fallbackSrc });
+      const trigger = document.createElement("button"); trigger.className = "story-photo-trigger"; trigger.type = "button";
+      trigger.dataset.slideshowIndex = CONFIG.photos.length + index; trigger.setAttribute("aria-label", `Open memory: ${memory.title}`);
+      trigger.append(image);
+      const parsedDate = new Date(`${memory.date}T12:00:00`);
+      const time = document.createElement("time");
+      if (Number.isNaN(parsedDate.getTime())) time.textContent = memory.date;
+      else { time.dateTime = memory.date; time.textContent = dateFormatter.format(parsedDate); }
+      const title = document.createElement("h3"); title.textContent = memory.title;
+      const story = document.createElement("p"); story.textContent = memory.story;
+      article.append(trigger, time, title, story); return article;
+    }));
+    document.getElementById("journeyList").replaceChildren(...CONFIG.journey.map((moment) => {
+      const article = document.createElement("article"); article.className = "journey-card";
+      const icon = document.createElement("span"); icon.className = "journey-icon"; icon.textContent = moment.icon; icon.setAttribute("aria-hidden", "true");
+      const title = document.createElement("h3"); title.textContent = moment.title;
+      const story = document.createElement("p"); story.textContent = moment.story;
+      article.append(icon, title, story); return article;
+    }));
+    document.getElementById("favoriteList").replaceChildren(...CONFIG.favoriteMemories.map((memory) => {
+      const article = document.createElement("article"); article.className = "favorite-memory";
+      const heart = document.createElement("span"); heart.textContent = "♥"; heart.setAttribute("aria-hidden", "true");
+      const title = document.createElement("h3"); title.textContent = memory.title;
+      const story = document.createElement("p"); story.textContent = memory.story;
+      article.append(heart, title, story); return article;
+    }));
+    document.getElementById("reasonsList").querySelectorAll(".reason p").forEach((element, index) => { if (CONFIG.reasons[index]) element.textContent = CONFIG.reasons[index]; });
+
+    const imageViewer = document.getElementById("imageViewer");
+    const viewerImage = document.getElementById("viewerImage");
+    const viewerCaption = document.getElementById("viewerCaption");
+    const viewerCount = document.getElementById("viewerCount");
+    const viewerPlay = document.getElementById("viewerPlay");
+    let activeSlide = 0;
+    let slideTimer;
+    let slideTransition = 0;
+    let slideshowTrigger;
+
+    function renderSlide(index) {
+      activeSlide = (index + slideshowPhotos.length) % slideshowPhotos.length;
+      const transition = ++slideTransition;
+      viewerImage.classList.add("is-changing");
+      window.setTimeout(() => {
+        if (transition !== slideTransition) return;
+        const photo = slideshowPhotos[activeSlide];
+        loadPhoto(viewerImage, photo);
+        viewerImage.alt = photo.alt;
+        viewerCaption.textContent = photo.caption;
+        viewerCount.textContent = `${activeSlide + 1} / ${slideshowPhotos.length}`;
+        requestAnimationFrame(() => viewerImage.classList.remove("is-changing"));
+      }, 140);
+    }
+
+    function setSlideshowPlaying(playing) {
+      window.clearInterval(slideTimer);
+      slideTimer = undefined;
+      viewerPlay.setAttribute("aria-pressed", String(playing));
+      viewerPlay.setAttribute("aria-label", playing ? "Pause slideshow" : "Start slideshow");
+      viewerPlay.title = playing ? "Pause slideshow" : "Start slideshow";
+      viewerPlay.textContent = playing ? "Ⅱ" : "▶";
+      if (playing) slideTimer = window.setInterval(() => renderSlide(activeSlide + 1), 4000);
+    }
+
+    function closeSlideshow() {
+      imageViewer.hidden = true;
+      document.body.classList.remove("is-locked");
+      setSlideshowPlaying(false);
+      slideshowTrigger?.focus();
+    }
+
+    document.body.addEventListener("click", (event) => {
+      const trigger = event.target.closest("[data-slideshow-index]");
+      if (!trigger) return;
+      slideshowTrigger = trigger;
+      imageViewer.hidden = false;
+      document.body.classList.add("is-locked");
+      renderSlide(Number(trigger.dataset.slideshowIndex));
+      document.getElementById("viewerClose").focus();
+    });
+    document.getElementById("viewerPrevious").addEventListener("click", () => renderSlide(activeSlide - 1));
+    document.getElementById("viewerNext").addEventListener("click", () => renderSlide(activeSlide + 1));
+    document.getElementById("viewerClose").addEventListener("click", closeSlideshow);
+    viewerPlay.addEventListener("click", () => setSlideshowPlaying(viewerPlay.getAttribute("aria-pressed") !== "true"));
+    imageViewer.addEventListener("click", (event) => { if (event.target === imageViewer) closeSlideshow(); });
+    let swipeStartX;
+    const viewerStage = document.querySelector(".viewer-stage");
+    viewerStage.addEventListener("pointerdown", (event) => { if (event.pointerType === "touch") swipeStartX = event.clientX; });
+    viewerStage.addEventListener("pointerup", (event) => {
+      if (swipeStartX === undefined) return;
+      const distance = event.clientX - swipeStartX;
+      swipeStartX = undefined;
+      if (Math.abs(distance) > 45) renderSlide(activeSlide + (distance < 0 ? 1 : -1));
+    });
+    viewerStage.addEventListener("pointercancel", () => { swipeStartX = undefined; });
+    document.addEventListener("keydown", (event) => {
+      if (imageViewer.hidden) return;
+      if (event.key === "Escape") closeSlideshow();
+      if (event.key === "ArrowLeft") renderSlide(activeSlide - 1);
+      if (event.key === "ArrowRight") renderSlide(activeSlide + 1);
+    });
+
+    function updateCounter() {
+      const start = new Date(CONFIG.anniversaryDate);
+      const now = new Date();
+      if (Number.isNaN(start.getTime()) || start > now) return;
+      let months = (now.getFullYear() - start.getFullYear()) * 12 + now.getMonth() - start.getMonth();
+      const anchor = new Date(start);
+      anchor.setMonth(anchor.getMonth() + months);
+      if (anchor > now) months -= 1;
+      const lastMonth = new Date(start);
+      lastMonth.setMonth(lastMonth.getMonth() + months);
+      const elapsed = Math.max(0, now - lastMonth);
+      document.getElementById("monthsCount").textContent = months;
+      document.getElementById("daysCount").textContent = Math.floor(elapsed / 86400000);
+      document.getElementById("hoursCount").textContent = Math.floor((elapsed % 86400000) / 3600000);
+    }
+    updateCounter(); setInterval(updateCounter, 60000);
+
+    const observer = new IntersectionObserver((entries) => entries.forEach((entry) => {
+      if (entry.isIntersecting) { entry.target.classList.add("visible"); observer.unobserve(entry.target); }
+    }), { threshold: 0.12 });
+    document.querySelectorAll(".reveal").forEach((element) => observer.observe(element));
+
+    const openingScreen = document.getElementById("openingScreen");
+    document.body.classList.add("is-locked");
+    document.querySelector("header").setAttribute("inert", "");
+    document.querySelector("footer").setAttribute("inert", "");
+    document.getElementById("openSurprise").addEventListener("click", () => {
+      const button = document.getElementById("openSurprise");
+      if (button.disabled) return;
+      button.disabled = true;
+      for (let index = 0; index < 54; index += 1) {
+        const particle = document.createElement("span");
+        particle.className = "transition-particle";
+        particle.textContent = Math.random() > 0.35 ? "♥" : "✦";
+        particle.style.setProperty("--left", `${Math.random() * 100}%`);
+        particle.style.setProperty("--size", `${12 + Math.random() * 22}px`);
+        particle.style.setProperty("--duration", `${1.1 + Math.random() * 1.3}s`);
+        particle.style.setProperty("--particle-color", Math.random() > 0.5 ? "#f4afc2" : "#f6e5c6");
+        openingScreen.append(particle);
+      }
+      openingScreen.classList.add("is-opening");
+      window.setTimeout(() => {
+        openingScreen.remove();
+        document.body.classList.remove("is-locked");
+        document.querySelectorAll("header, main, footer").forEach((element) => element.removeAttribute("inert"));
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 1350);
+    });
+
+    const finale = document.getElementById("finale");
+    const finaleClose = document.getElementById("closeFinale");
+    function closeFinale() {
+      finale.hidden = true;
+      document.body.classList.remove("is-locked");
+      document.getElementById("surpriseButton").focus();
+    }
+    document.getElementById("surpriseButton").addEventListener("click", () => {
+      finale.hidden = false;
+      document.body.classList.add("is-locked");
+      finaleClose.focus();
+      for (let index = 0; index < 70; index += 1) {
+        const particle = document.createElement("span");
+        particle.className = "finale-particle";
+        particle.textContent = Math.random() > 0.28 ? "♥" : "✦";
+        particle.style.setProperty("--left", `${Math.random() * 100}%`);
+        particle.style.setProperty("--size", `${12 + Math.random() * 25}px`);
+        particle.style.setProperty("--duration", `${4 + Math.random() * 5}s`);
+        particle.style.setProperty("--delay", `${Math.random() * -8}s`);
+        particle.style.setProperty("--sway", `${-45 + Math.random() * 90}px`);
+        particle.style.setProperty("--particle-color", Math.random() > 0.5 ? "#db7894" : "#a795c6");
+        finale.append(particle);
+      }
+    });
+    finaleClose.addEventListener("click", closeFinale);
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape" && !finale.hidden) closeFinale(); });
+
+    let audioContext; let oscillator; let gain;
+    const musicToggle = document.getElementById("musicToggle");
+    musicToggle.addEventListener("click", async () => {
+      if (!audioContext) {
+        audioContext = new (window.AudioContext || window.webkitAudioContext)();
+        oscillator = audioContext.createOscillator(); gain = audioContext.createGain();
+        oscillator.type = "sine"; oscillator.frequency.value = 261.63; gain.gain.value = 0;
+        oscillator.connect(gain); gain.connect(audioContext.destination); oscillator.start();
+      }
+      if (audioContext.state === "suspended") await audioContext.resume();
+      const playing = musicToggle.getAttribute("aria-pressed") === "true";
+      gain.gain.setTargetAtTime(playing ? 0 : 0.025, audioContext.currentTime, 0.18);
+      musicToggle.setAttribute("aria-pressed", String(!playing));
+      musicToggle.setAttribute("aria-label", playing ? "Play gentle background tone" : "Pause gentle background tone");
+      musicToggle.title = playing ? "Play gentle background tone" : "Pause gentle background tone";
+    });
+  </script>
+</body>
+</html>
